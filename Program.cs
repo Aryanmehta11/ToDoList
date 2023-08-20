@@ -5,12 +5,14 @@ using System.Data;
 namespace MyToDoList {
     enum TaskPriority { Low, Medium, High }
     enum TaskStatus {Pending,InProgress,Completed }
+    enum TaskCategory {Personal,Work,Sports,Shopping,Study}
 
     class Task {
         public string Description { get; set; }
         public TaskPriority Priority { get; set; }
         public DateTime DueDate { get; set; }
         public TaskStatus Status {get; set;}
+        public TaskCategory Category {get;set;}
     }
 
     class Program {
@@ -74,11 +76,18 @@ namespace MyToDoList {
             Console.WriteLine("Enter the due date (DD-MM-YYYY)");
             DateTime.TryParse(Console.ReadLine(), out DateTime dueDate);
 
+            Console.WriteLine("Choose the task category");
+            foreach (TaskCategory category in Enum.GetValues(typeof(TaskCategory))) {
+                Console.WriteLine($"{(int)category}.{category}");
+            }
+            Enum.TryParse(Console.ReadLine(),out TaskCategory taskCategory);
+
             tasks.Add(new Task {
                 Description = taskDescription,
                 Priority = taskPriority,
                 DueDate = dueDate,
-                Status=TaskStatus.Pending
+                Status=TaskStatus.Pending,
+                Category=taskCategory
 
             });
 
@@ -89,7 +98,7 @@ namespace MyToDoList {
         static void ViewTasks() {
             Console.WriteLine("\nTasks:");
             for (int i = 0; i < tasks.Count; i++) {
-                Console.WriteLine($"{i + 1}. Description: {tasks[i].Description}, Priority: {tasks[i].Priority}, Due Date: {tasks[i].DueDate.ToString("dd-MM-yyyy")} , Status: {tasks[i].Status}");
+                Console.WriteLine($"{i + 1}. Description: {tasks[i].Description}, Priority: {tasks[i].Priority}, Due Date: {tasks[i].DueDate.ToString("dd-MM-yyyy")} , Status: {tasks[i].Status}, Category:{tasks[i].Category}");
                 Console.WriteLine();
             }
         } // End of the View the task
