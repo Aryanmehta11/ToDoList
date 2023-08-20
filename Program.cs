@@ -54,7 +54,7 @@ namespace MyToDoList {
             while (true) {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 3)) {
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 4)) {
                     return choice;
                 } else {
                     Console.WriteLine("Please enter a valid choice");
