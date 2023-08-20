@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace MyToDoList {
     enum TaskPriority { Low, Medium, High }
+    enum TaskStatus {Pending,InProgress,Completed }
 
     class Task {
         public string Description { get; set; }
         public TaskPriority Priority { get; set; }
         public DateTime DueDate { get; set; }
+        public TaskStatus Status {get; set;}
     }
 
     class Program {
@@ -19,7 +22,8 @@ namespace MyToDoList {
                 Console.WriteLine("Please select an option");
                 Console.WriteLine("1. Add a task");
                 Console.WriteLine("2. View tasks");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Update the status of your tasks");
+                Console.WriteLine("4.Exit");
 
                 int choice = GetUserChoice();
 
@@ -33,7 +37,10 @@ namespace MyToDoList {
                         break;
 
                     case 3:
-                        Console.WriteLine("Goodbye!");
+                        UpdateStatus();
+                        break;
+                    case 4: 
+                        Console.WriteLine("Goodbye!, see you later");
                         return;
 
                     default:
@@ -47,7 +54,7 @@ namespace MyToDoList {
             while (true) {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 3)) {
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 4)) {
                     return choice;
                 } else {
                     Console.WriteLine("Please enter a valid choice");
@@ -70,7 +77,9 @@ namespace MyToDoList {
             tasks.Add(new Task {
                 Description = taskDescription,
                 Priority = taskPriority,
-                DueDate = dueDate
+                DueDate = dueDate,
+                Status=TaskStatus.Pending
+
             });
 
             Console.WriteLine("The task has been added successfully");
@@ -80,10 +89,26 @@ namespace MyToDoList {
         static void ViewTasks() {
             Console.WriteLine("\nTasks:");
             for (int i = 0; i < tasks.Count; i++) {
-                Console.WriteLine($"{i + 1}. Description: {tasks[i].Description}, Priority: {tasks[i].Priority}, Due Date: {tasks[i].DueDate.ToString("dd-MM-yyyy")}");
+                Console.WriteLine($"{i + 1}. Description: {tasks[i].Description}, Priority: {tasks[i].Priority}, Due Date: {tasks[i].DueDate.ToString("dd-MM-yyyy")} , Status: {tasks[i].Status}");
                 Console.WriteLine();
             }
         } // End of the View the task
+
+        static void UpdateStatus(){
+            ViewTasks();
+
+            Console.WriteLine("Enter the index of the task for which you need to need update :");
+            if(int.TryParse(Console.ReadLine(),out int taskIndex) && taskIndex>=1 && taskIndex<=tasks.Count){
+                Console.WriteLine("Enter the new status of the task(Pending/Completed/InProgress)");
+                Enum.TryParse(Console.ReadLine(), out TaskStatus newStatus);
+                tasks[taskIndex-1].Status=newStatus;
+                Console.WriteLine("Your status of the task is updated");
+            }
+
+            else {
+                Console.WriteLine("Invalid Index entered by you , seems like you are dozed off with completion of your tasks");
+            }
+        }
 
     } // End of the Class Program
 }
