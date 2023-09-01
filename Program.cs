@@ -33,7 +33,8 @@ namespace MyToDoList
                 Console.WriteLine("3. Update the status of your tasks");
                 Console.WriteLine("4. Sorting the tasks");
                 Console.WriteLine("5.Deletion of tasks");
-                Console.WriteLine("6.Exit");
+                Console.WriteLine("6. Filtering the tasks");
+                Console.WriteLine("7.Exit");
 
                 int choice = GetUserChoice();
 
@@ -59,6 +60,10 @@ namespace MyToDoList
                         break;    
 
                     case 6:
+                        FilterTasks();
+                        break;
+                        
+                    case 7:
                         Console.WriteLine("Goodbye!, see you later");
                         return;
 
@@ -76,7 +81,7 @@ namespace MyToDoList
             {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 6))
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 7))
                 {
                     return choice;
                 }
@@ -100,6 +105,7 @@ namespace MyToDoList
             Console.WriteLine("Enter the due date (DD-MM-YYYY)");
             DateTime.TryParse(Console.ReadLine(), out DateTime dueDate);
 
+            
             if (IsValidDueDate(dueDate))
             {
                 Console.WriteLine("Choose the task category");
@@ -217,6 +223,27 @@ namespace MyToDoList
 
             else {
                 Console.WriteLine("Invalid index entered");
+            }
+        }
+        static void FilterTasks() {
+            Console.WriteLine("Choose a status to filter the tasks");
+            foreach (TaskStatus status in Enum.GetValues(typeof(TaskStatus))){
+                Console.WriteLine($"{(int) status}.{status}");
+
+            }
+            if(Enum.TryParse(Console.ReadLine(),out TaskStatus selectedStatus)){
+                    List<Task> filteredTasks= tasks.Where(task=>task.Status==selectedStatus).ToList();
+                    Console.WriteLine("Filtered Tasks:");
+                    for (int i = 0; i < filteredTasks.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1}. Description: {filteredTasks[i].Description}, Priority: {filteredTasks[i].Priority}, Due Date: {filteredTasks[i].DueDate.ToString("dd-MM-yyyy")} , Status: {filteredTasks[i].Status}, Category:{filteredTasks[i].Category}");
+                                Console.WriteLine();
+                            }
+
+            }
+
+            else {
+                Console.WriteLine("Invalid status selected");
             }
         }
 
