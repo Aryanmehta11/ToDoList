@@ -32,7 +32,8 @@ namespace MyToDoList
                 Console.WriteLine("2. View tasks");
                 Console.WriteLine("3. Update the status of your tasks");
                 Console.WriteLine("4. Sorting the tasks");
-                Console.WriteLine("5.Exit");
+                Console.WriteLine("5.Deletion of tasks");
+                Console.WriteLine("6.Exit");
 
                 int choice = GetUserChoice();
 
@@ -53,7 +54,11 @@ namespace MyToDoList
                         SortTasksByPriority();
                         break;
 
-                    case 5:
+                    case 5: 
+                        DeleteTask();
+                        break;    
+
+                    case 6:
                         Console.WriteLine("Goodbye!, see you later");
                         return;
 
@@ -71,7 +76,7 @@ namespace MyToDoList
             {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 5))
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 6))
                 {
                     return choice;
                 }
@@ -197,6 +202,22 @@ namespace MyToDoList
             DateTime maxDate = today.AddYears(10); // Ten years in the future
 
             return dueDate >= minDate && dueDate <= maxDate;
+        }
+
+        static void DeleteTask(){
+            ViewTasks();
+
+            Console.WriteLine("Enter the index of the task you want to delete");
+
+            if (int.TryParse(Console.ReadLine(),out int taskIndex) && taskIndex>=1 && taskIndex<=tasks.Count)
+            {
+                tasks.RemoveAt(taskIndex-1);
+                Console.WriteLine("Task deleted successfully");
+            }
+
+            else {
+                Console.WriteLine("Invalid index entered");
+            }
         }
 
     } // End of the Class Program
