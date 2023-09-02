@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "21gOCQ1+2VimkGXqrqdtqemEfhvbY8u6OgBtOyytMxP/38jBiBY2aUs2N7MeTn4ESq6cBHO/FF5ZVsrVubswpw==",
+  "dgSpecHash": "X9LZOSAdArfaw2vjioCoVe7UAbt9zagpnbu2T+hePzItm9LygXMyP3HncCLzjvpN86LbgusWjQwoYNSeWcdQEw==",
   "success": true,
   "projectFilePath": "D:\\My Projects\\MyToDoList\\MyToDoList.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\imAry\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

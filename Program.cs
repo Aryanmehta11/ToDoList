@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Xml.Serialization;
+using System.Globalization;
+using System.IO;
+using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace MyToDoList
 {
@@ -35,7 +40,9 @@ namespace MyToDoList
                 Console.WriteLine("5. Deletion of tasks");
                 Console.WriteLine("6. Filtering the tasks");
                 Console.WriteLine("7. Edit the tasks");
-                Console.WriteLine("8. Exit");
+                Console.WriteLine("8. Export the tasks");
+                Console.WriteLine("9. Import the tasks");
+                Console.WriteLine("10. Exit");
 
                 int choice = GetUserChoice();
 
@@ -65,10 +72,16 @@ namespace MyToDoList
                         break;
                         
                     case 7:
-                         EditTask();
-                         break;
-                        
-                    case 8:
+                        EditTask();
+                        break;
+                    case 8: 
+                        ExportTasks();
+                        break;
+                    case 9:
+                        ImportTasks();
+                        break;    
+
+                    case 10:
                         Console.WriteLine("Goodbye!, see you later");
                         return;   
 
@@ -86,7 +99,7 @@ namespace MyToDoList
             {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 8))
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 10))
                 {
                     return choice;
                 }
@@ -324,6 +337,50 @@ namespace MyToDoList
             }
 
         }
+
+
+        static void ExportTasks()
+        {
+            Console.WriteLine("Enter the file name to export tasks (e.g., tasks.csv):");
+            string fileName = Console.ReadLine();
+
+            try
+            {
+                using (var writer = new StreamWriter(fileName))
+                using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    csv.WriteRecords(tasks);
+                }
+
+                Console.WriteLine("Tasks have been exported successfully.");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Error exporting tasks: {e.Message}");
+            }
+        }
+
+        static void ImportTasks()
+        {
+            Console.WriteLine("Enter the file name to import tasks from (e.g., tasks.csv):");
+            string fileName = Console.ReadLine();
+
+            try
+            {
+                using (var reader = new StreamReader(fileName))
+                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    tasks = csv.GetRecords<Task>().ToList();
+                }
+
+                Console.WriteLine("Tasks have been imported successfully.");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Error importing tasks: {e.Message}");
+            }
+        }
+
 
     } // End of the Class Program
 }

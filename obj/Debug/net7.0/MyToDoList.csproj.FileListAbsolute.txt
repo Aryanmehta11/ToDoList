@@ -13,3 +13,5 @@ D:\My Projects\MyToDoList\obj\Debug\net7.0\refint\MyToDoList.dll
 D:\My Projects\MyToDoList\obj\Debug\net7.0\MyToDoList.pdb
 D:\My Projects\MyToDoList\obj\Debug\net7.0\MyToDoList.genruntimeconfig.cache
 D:\My Projects\MyToDoList\obj\Debug\net7.0\ref\MyToDoList.dll
+D:\My Projects\MyToDoList\bin\Debug\net7.0\CsvHelper.dll
+D:\My Projects\MyToDoList\obj\Debug\net7.0\MyToDoList.csproj.CopyComplete
