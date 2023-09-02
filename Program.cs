@@ -340,47 +340,47 @@ namespace MyToDoList
 
 
         static void ExportTasks()
-        {
-            Console.WriteLine("Enter the file name to export tasks (e.g., tasks.csv):");
-            string fileName = Console.ReadLine();
-
-            try
-            {
-                using (var writer = new StreamWriter(fileName))
-                using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
                 {
-                    csv.WriteRecords(tasks);
+                    Console.WriteLine("Enter the file name to export tasks (e.g., tasks.csv):");
+                    string fileName = Console.ReadLine();
+
+                    try
+                    {
+                        string fullPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                        using (var writer = new StreamWriter(fullPath))
+                        using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                        {
+                            csv.WriteRecords(tasks);
+                        }
+
+                        Console.WriteLine($"Tasks have been exported to {fullPath} successfully.");
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine($"Error exporting tasks: {e.Message}");
+                    }
                 }
 
-                Console.WriteLine("Tasks have been exported successfully.");
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine($"Error exporting tasks: {e.Message}");
-            }
-        }
-
-        static void ImportTasks()
-        {
-            Console.WriteLine("Enter the file name to import tasks from (e.g., tasks.csv):");
-            string fileName = Console.ReadLine();
-
-            try
-            {
-                using (var reader = new StreamReader(fileName))
-                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+static void ImportTasks()
                 {
-                    tasks = csv.GetRecords<Task>().ToList();
+                    Console.WriteLine("Enter the file name to import tasks from (e.g., tasks.csv):");
+                    string fileName = Console.ReadLine();
+
+                    try
+                    {
+                        string fullPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                        using (var reader = new StreamReader(fullPath))
+                        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                        {
+                            tasks = csv.GetRecords<Task>().ToList();
+                        }
+
+                        Console.WriteLine($"Tasks have been imported from {fullPath} successfully.");
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine($"Error importing tasks: {e.Message}");
+                    }
                 }
-
-                Console.WriteLine("Tasks have been imported successfully.");
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine($"Error importing tasks: {e.Message}");
-            }
-        }
-
-
     } // End of the Class Program
 }
