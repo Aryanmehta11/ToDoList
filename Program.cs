@@ -32,9 +32,10 @@ namespace MyToDoList
                 Console.WriteLine("2. View tasks");
                 Console.WriteLine("3. Update the status of your tasks");
                 Console.WriteLine("4. Sorting the tasks");
-                Console.WriteLine("5.Deletion of tasks");
+                Console.WriteLine("5. Deletion of tasks");
                 Console.WriteLine("6. Filtering the tasks");
-                Console.WriteLine("7.Exit");
+                Console.WriteLine("7. Edit the tasks");
+                Console.WriteLine("8. Exit");
 
                 int choice = GetUserChoice();
 
@@ -64,8 +65,12 @@ namespace MyToDoList
                         break;
                         
                     case 7:
+                         EditTask();
+                         break;
+                        
+                    case 8:
                         Console.WriteLine("Goodbye!, see you later");
-                        return;
+                        return;   
 
 
                     default:
@@ -81,7 +86,7 @@ namespace MyToDoList
             {
                 Console.WriteLine("What you wanna do");
 
-                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 7))
+                if (int.TryParse(Console.ReadLine(), out int choice) && (choice >= 1 && choice <= 8))
                 {
                     return choice;
                 }
@@ -245,6 +250,79 @@ namespace MyToDoList
             else {
                 Console.WriteLine("Invalid status selected");
             }
+        }
+
+
+        static void EditTask(){
+            ViewTasks();
+            Console.WriteLine("Enter the index of the task you want to edit");
+        
+
+            if (int.TryParse(Console.ReadLine(),out int taskIndex) && taskIndex>=1 && taskIndex<=tasks.Count){
+                Console.WriteLine($"Entered index: {taskIndex}");
+                int userTaskIndex=taskIndex-1;
+                Task taskToEdit=tasks[userTaskIndex];
+                Console.WriteLine($"Editing task: {taskToEdit.Description}");
+                Console.WriteLine("Select what you want to edit:");
+                Console.WriteLine("1. Description");
+                Console.WriteLine("2. Priority");
+                Console.WriteLine("3. Due Date");
+                Console.WriteLine("4. Status");
+                Console.WriteLine("5. Category");
+
+
+                if (int.TryParse(Console.ReadLine(),out int editChoice)&& editChoice>=1 && editChoice<=5){
+                    switch(editChoice){
+                        case 1:
+                        Console.WriteLine("Enter the new description:");
+                        taskToEdit.Description = Console.ReadLine();
+                        break;
+
+                case 2:
+                    Console.WriteLine("Enter the new priority (High/Medium/Low):");
+                    Enum.TryParse(Console.ReadLine(), out TaskPriority newPriority);
+                    taskToEdit.Priority = newPriority;
+                    break;
+
+                case 3:
+                    Console.WriteLine("Enter the new due date (DD-MM-YYYY):");
+                    DateTime.TryParse(Console.ReadLine(), out DateTime newDueDate);
+                    if (IsValidDueDate(newDueDate))
+                    {
+                        taskToEdit.DueDate = newDueDate;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid due date. Task not updated.");
+                    }
+                    break;
+
+                case 4:
+                    Console.WriteLine("Enter the new status (Pending/Completed/InProgress):");
+                    Enum.TryParse(Console.ReadLine(), out TaskStatus newStatus);
+                    taskToEdit.Status = newStatus;
+                    break;
+
+                case 5:
+                    Console.WriteLine("Enter the new category (Personal/Work/Sports/Shopping/Study):");
+                    Enum.TryParse(Console.ReadLine(), out TaskCategory newCategory);
+                    taskToEdit.Category = newCategory;
+                    break;
+
+                    }
+                    Console.WriteLine("Task Updated Successfully");
+                }
+                 else {
+                    Console.WriteLine("Invalid Choice");
+                 }
+
+
+            }
+
+            else {
+                Console.WriteLine("Invalid Task Index");
+            }
+
         }
 
     } // End of the Class Program
